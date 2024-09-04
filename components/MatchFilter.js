@@ -1,56 +1,77 @@
 "use client";
-import {
-  GetMatchsToday,
-  GetMatchsTomorrow,
-  GetMatchsYesterday,
-} from "@/app/actions";
-import React, { useState } from "react";
+import { matchesData } from "@/app/actions";
+import React, { useState, useEffect } from "react";
+
+// Utility function to pad single digits with leading zero
+const padZero = (num) => num.toString().padStart(2, "0");
 
 const MatchFilter = ({ setGetMatchs }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [selectDay, setSelectDay] = useState("اليوم");
+  const [championship, setChampionship] = useState({
+    nameChampionship: "كل البطولات",
+    championshipId: "",
+  });
 
-  const handleSelectDay = async (day) => {
-    setSelectDay(day);
-    switch (day) {
-      case "اليوم":
-        setGetMatchs(await GetMatchsToday());
-        break;
-      case "غدا":
-        setGetMatchs(await GetMatchsTomorrow());
-        break;
-      case "امس":
-        setGetMatchs(await GetMatchsYesterday());
-        break;
-      default:
-        break;
-    }
-  };
+  const data = new Date();
+  const getFullyear = data.getFullYear();
+  const getMonth = data.getMonth() + 1;
+  const getDay = data.getDate();
+
+  // Calculate dates with leading zeros
+  const yasterday = `${getFullyear}-${padZero(getMonth)}-${padZero(
+    getDay - 1
+  )}`;
+  const today = `${getFullyear}-${padZero(getMonth)}-${padZero(getDay)}`;
+  const tomorrow = `${getFullyear}-${padZero(getMonth)}-${padZero(getDay + 1)}`;
+
+  useEffect(() => {
+    const fetchMatches = async () => {
+      let date;
+      switch (selectDay) {
+        case "اليوم":
+          date = today;
+          break;
+        case "غدا":
+          date = tomorrow;
+          break;
+        case "امس":
+          date = yasterday;
+          break;
+        default:
+          return;
+      }
+      setGetMatchs(await matchesData(championship.championshipId, date));
+    };
+    fetchMatches();
+  }, [championship, selectDay, setGetMatchs]);
 
   const allChampions = [
-    { kind: "الكرة المصرية" },
-    { kind: "الدوري المصري" },
-    { kind: "الكرة الأوروبية" },
-    { kind: "منتخب مصر" },
-    { kind: "سعودي في الجول" },
-    { kind: "الدوري الإنجليزي" },
-    { kind: "الدوري الإسباني" },
-    { kind: "كأس العالم للأندية" },
-    { kind: "الدوري الإنجليزي الممتاز" },
-    { kind: "الدوري الإيطالي" },
-    { kind: "دوري أبطال إفريقيا" },
-    { kind: "الدوري الألماني" },
-    { kind: "كأس الكونفدرالية" },
-    { kind: "دوري أبطال أوروبا" },
-    { kind: "الدوري الفرنسي" },
-    { kind: "الدوري السعودي للمحترفين" },
-    { kind: "الدوري البرتغالي" },
+    { nameChampionship: "كل البطولات", championshipId: "" },
+    { nameChampionship: "الدوري المصري", championshipId: "1267" },
+    { nameChampionship: "الدوري الإنجليزي", championshipId: "1362" },
+    { nameChampionship: "الدوري الإسباني", championshipId: "1367" },
+    { nameChampionship: "الدوري الإيطالي", championshipId: "1373" },
+    { nameChampionship: "دوري أبطال إفريقيا", championshipId: "1383" },
+    { nameChampionship: "الدوري الألماني", championshipId: "1370" },
+    { nameChampionship: "دوري أبطال أوروبا", championshipId: "1384" },
+    { nameChampionship: "كأس الكونفدرالية", championshipId: "1386" },
+    { nameChampionship: "الدوري الفرنسي", championshipId: "1379" },
+    { nameChampionship: "الدوري البرتغالي", championshipId: "1380" },
+    { nameChampionship: "الدوري السعودي للمحترفين", championshipId: "1365" },
+    { nameChampionship: "كأس السوبر الإفريقي", championshipId: "1372" },
+    { nameChampionship: "دوري المؤتمر الأوروبي", championshipId: "1391" },
+    { nameChampionship: "تصفيات كأس الأمم الإفريقية", championshipId: "1371" },
   ];
+
+  const chooseChampionship = (nameChampionship, championshipId) => {
+    setChampionship({ nameChampionship, championshipId });
+    setShowDropdown(false);
+  };
 
   return (
     <div className="w-full my-5 flex items-center justify-between">
-      <span></span>
-      <div className="relative hidden">
+      <div className="relative">
         <button
           id="dropdownDefaultButton"
           data-dropdown-toggle="dropdown"
@@ -58,7 +79,7 @@ const MatchFilter = ({ setGetMatchs }) => {
           type="button"
           onClick={() => setShowDropdown(!showDropdown)}
         >
-          كل البطولات
+          {championship.nameChampionship}
           <svg
             className="w-2.5 h-2.5 ms-3"
             aria-hidden="true"
@@ -75,31 +96,21 @@ const MatchFilter = ({ setGetMatchs }) => {
             />
           </svg>
         </button>
-
         <div
           className={`z-10 ${showDropdown ? "visible" : "hidden"} 
           absolute
-          bg-white divide-y divide-nebg-neutral-800 rounded-lg shadow w-44 dark:bg-neutral-800`}
+          bg-white divide-y divide-nebg-neutral-800 rounded-lg shadow w-60 dark:bg-neutral-800`}
         >
-          {allChampions.map(({ kind }, idx) => (
-            <ul
-              key={idx}
-              className="py-2 text-sm text-nebg-neutral-800 dark:text-nebg-neutral-800"
-              aria-labelledby="dropdownDefaultButton"
+          {allChampions.map(({ nameChampionship, championshipId }) => (
+            <li
+              key={championshipId}
+              className="text-center p-2 list-none py-2 text-sm text-nebg-neutral-800 dark:text-nebg-neutral-800 cursor-pointer hover:bg-neutral-800 dark:hover:bg-neutral-800 dark:hover:text-white"
+              onClick={() =>
+                chooseChampionship(nameChampionship, championshipId)
+              }
             >
-              <li>
-                <a
-                  href="#"
-                  className="block px-4 py-2 hover:bg-neutral-800 dark:hover:bg-neutral-800 dark:hover:text-white"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    // Handle selection here if needed
-                  }}
-                >
-                  {kind}
-                </a>
-              </li>
-            </ul>
+              {nameChampionship}
+            </li>
           ))}
         </div>
       </div>
@@ -109,7 +120,7 @@ const MatchFilter = ({ setGetMatchs }) => {
           className={`mx-5 p-3 text-xl ${
             selectDay === "غدا" ? "bg-neutral-900" : ""
           }`}
-          onClick={() => handleSelectDay("غدا")}
+          onClick={() => setSelectDay("غدا")}
         >
           غدا
         </button>
@@ -117,7 +128,7 @@ const MatchFilter = ({ setGetMatchs }) => {
           className={`mx-5 p-3 text-xl ${
             selectDay === "اليوم" ? "bg-neutral-900" : ""
           }`}
-          onClick={() => handleSelectDay("اليوم")}
+          onClick={() => setSelectDay("اليوم")}
         >
           اليوم
         </button>
@@ -125,7 +136,7 @@ const MatchFilter = ({ setGetMatchs }) => {
           className={`mx-5 p-3 text-xl ${
             selectDay === "امس" ? "bg-neutral-900" : ""
           }`}
-          onClick={() => handleSelectDay("امس")}
+          onClick={() => setSelectDay("امس")}
         >
           امس
         </button>
