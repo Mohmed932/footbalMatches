@@ -70,8 +70,8 @@ const MatchFilter = ({ setGetMatchs }) => {
   };
 
   return (
-    <div className="w-full my-5 flex items-center justify-between">
-      <div className="relative">
+    <div className="w-full my-5 flex items-center justify-between max-sm:flex-col">
+      <div className="max-sm:order-1 relative max-sm:my-5 max-sm:left-0 max-sm:w-full">
         <button
           id="dropdownDefaultButton"
           data-dropdown-toggle="dropdown"
@@ -115,7 +115,7 @@ const MatchFilter = ({ setGetMatchs }) => {
         </div>
       </div>
 
-      <div className="bg-neutral-700">
+      <div className="bg-neutral-700 max-sm:w-full flex items-center justify-center">
         <button
           className={`mx-5 p-3 text-xl ${
             selectDay === "غدا" ? "bg-neutral-900" : ""

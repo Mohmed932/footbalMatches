@@ -31,11 +31,11 @@ const ItemsOfMatchs = ({ matchs }) => {
                   <img
                     src={HomeTeamLogoUrl}
                     alt={HomeTeamName}
-                    className="w-24"
+                    className="w-24 max-sm:w-16"
                   />
                   <span>{HomeTeamName}</span>
                 </div>
-                <div className="w-2/6">
+                <div className="w-2/6 max-md:w-2/5 max-sm:w-2/4">
                   <Score
                     HomeScore={HomeScore}
                     CurrentMatchStatus={CurrentMatchStatus}
@@ -46,7 +46,7 @@ const ItemsOfMatchs = ({ matchs }) => {
                   <img
                     src={AwayTeamLogoUrl}
                     alt={AwayTeamName}
-                    className="w-24"
+                    className="w-24 max-sm:w-16"
                   />
                   <span>{AwayTeamName}</span>
                 </div>
