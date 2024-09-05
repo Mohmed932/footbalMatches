@@ -33,7 +33,7 @@ const ItemsOfMatchs = ({ matchs }) => {
                     alt={HomeTeamName}
                     className="w-24 max-sm:w-16"
                   />
-                  <span>{HomeTeamName}</span>
+                  <span className="max-sm:text-xs">{HomeTeamName}</span>
                 </div>
                 <div className="w-2/6 max-md:w-2/5 max-sm:w-2/4">
                   <Score
@@ -48,7 +48,7 @@ const ItemsOfMatchs = ({ matchs }) => {
                     alt={AwayTeamName}
                     className="w-24 max-sm:w-16"
                   />
-                  <span>{AwayTeamName}</span>
+                  <span className="max-sm:text-xs">{AwayTeamName}</span>
                 </div>
               </div>
               <MatchDetails
