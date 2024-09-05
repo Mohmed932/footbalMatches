@@ -99,7 +99,7 @@ const MatchFilter = ({ setGetMatchs }) => {
         <div
           className={`z-10 ${showDropdown ? "visible" : "hidden"} 
           absolute
-          bg-white divide-y divide-nebg-neutral-800 rounded-lg shadow w-60 `}
+          bg-white divide-y divide-nebg-neutral-800 rounded-lg  w-60 `}
         >
           {allChampions.map(({ nameChampionship, championshipId }) => (
             <li
@@ -115,7 +115,7 @@ const MatchFilter = ({ setGetMatchs }) => {
         </div>
       </div>
 
-      <div className="shadow-xl max-sm:w-full flex items-center justify-center">
+      <div className="max-sm:w-full flex items-center justify-center">
         <button
           className={`mx-5 p-3 text-xl ${
             selectDay === "غدا" ? "bg-red-700 text-white" : ""
