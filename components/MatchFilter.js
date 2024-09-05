@@ -99,7 +99,7 @@ const MatchFilter = ({ setGetMatchs }) => {
         <div
           className={`z-10 ${showDropdown ? "visible" : "hidden"} 
           absolute
-          bg-white divide-y divide-nebg-neutral-800 rounded-lg shadow w-60 dark:bg-neutral-800`}
+          bg-white divide-y divide-nebg-neutral-800 rounded-lg shadow w-60 `}
         >
           {allChampions.map(({ nameChampionship, championshipId }) => (
             <li
@@ -115,10 +115,10 @@ const MatchFilter = ({ setGetMatchs }) => {
         </div>
       </div>
 
-      <div className="bg-neutral-700 max-sm:w-full flex items-center justify-center">
+      <div className="shadow-xl max-sm:w-full flex items-center justify-center">
         <button
           className={`mx-5 p-3 text-xl ${
-            selectDay === "غدا" ? "bg-neutral-900" : ""
+            selectDay === "غدا" ? "bg-red-700 text-white" : ""
           }`}
           onClick={() => setSelectDay("غدا")}
         >
@@ -126,7 +126,7 @@ const MatchFilter = ({ setGetMatchs }) => {
         </button>
         <button
           className={`mx-5 p-3 text-xl ${
-            selectDay === "اليوم" ? "bg-neutral-900" : ""
+            selectDay === "اليوم" ? "bg-red-700 text-white" : ""
           }`}
           onClick={() => setSelectDay("اليوم")}
         >
@@ -134,7 +134,7 @@ const MatchFilter = ({ setGetMatchs }) => {
         </button>
         <button
           className={`mx-5 p-3 text-xl ${
-            selectDay === "امس" ? "bg-neutral-900" : ""
+            selectDay === "امس" ? "bg-red-700 text-white" : ""
           }`}
           onClick={() => setSelectDay("امس")}
         >

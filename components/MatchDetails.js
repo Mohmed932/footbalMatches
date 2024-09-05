@@ -36,7 +36,7 @@ const MatchDetails = ({
         <h3 className="text-xl my-5">تفاصيل المباره</h3>
       </div>
       <div
-        className={`bg-neutral-900 delay-500 ${
+        className={`bg-[#F0F0F0] delay-500 ${
           show === idx ? "h-auto" : "max-h-0"
         }`}
       >

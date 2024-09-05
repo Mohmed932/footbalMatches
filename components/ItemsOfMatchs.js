@@ -3,7 +3,7 @@ import Score from "./Score";
 
 const ItemsOfMatchs = ({ matchs }) => {
   return (
-    <div className="p-5 rounded-lg bg-[#ffffff33] w-full h-full  overflow-auto">
+    <div className="shadow-xl p-5 rounded-lg bg-[#ffffff33] w-full h-full  overflow-auto">
       {matchs.length === 0 ? (
         <h1 className=" text-center text-xl">لا توجد مباريات</h1>
       ) : (
